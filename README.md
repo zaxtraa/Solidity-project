@@ -1,49 +1,106 @@
-# Solidity-project
-@@ -1,10 +1,11 @@
-MyToken Smart Contract
-MYTOKEN SMART CONTRACT
+# MyToken Smart Contract
 
-DESCRIPTION
-DESCRIPTION:
+## Description
 
-The MyToken contract is a simple implementation of a token system in Solidity, designed to handle basic minting and burning of tokens. The contract defines public variables for the token's name, abbreviation, and total supply, making this information easily accessible. It uses a mapping to keep track of the balance of tokens held by each address, ensuring precise and transparent management of individual holdings. The mint function allows for the creation of new tokens, incrementing the total supply and updating the balance of a specified address. Conversely, the burn function permits the destruction of tokens, provided the address has sufficient balance, thereby decreasing both the total supply and the address's token holdings. This straightforward structure provides essential functionality for managing a token economy on the Ethereum blockchain.
+`MyToken` is a simple ERC-20-like token implemented in Solidity. This smart contract allows for basic token management functions including minting and burning tokens. The contract is written for the Ethereum blockchain and adheres to the Solidity version 0.8.18.
 
-Requirements
-REQUIRMENTS:
+## Getting Started
 
-1.Public Variables: The contract includes public variables to store details about the token:
-
-Token Name (tokenName)
-@@ -17,7 +18,7 @@ Total Supply (totalSupply)
-
-4.Burn Function: A function to decrease the total supply of tokens and deduct them from a specified address, with a check to ensure the address has enough tokens to burn.
-
-Contract Code:
-CONTRACT CODE:
+### Executing Program
+* To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
+* Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., HelloWorld.sol). Copy and paste the following code into the file:
 
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
-@@ -46,7 +47,8 @@ contract MyToken {
+pragma solidity 0.8.25;
+ 
+contract MyToken {
+
+    // public variables here
+    string public tokenName = "2KEN";
+    string public tokenAbbrv = "2KN";
+    uint public totalSupply = 0;
+
+    // mapping variable here
+    mapping(address => uint) public balances;
+
+    // mint function
+    function mint (address _address, uint _value) public {
+        totalSupply += _value;
+        balances[_address] += _value;
     }
+
+    // burn function
+    function burn (address _address, uint _value) public {
+        if (balances[_address] >= _value) {
+            totalSupply -= _value;
+            balances[_address] -= _value;
+        }
+    }
+
 }
 
-Functions:
-FUNCTIONS:
+To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.25" (or another compatible version), and then click on the "Compile MyToken.sol" button.
 
-Mint Function
-Tokens can be created anew through the mint function. Upon calling, it adds the specified _value to the balance of the specified _address and raises the totalSupply by that amount.
+Once the code is compiled, you can deploy the contract by clicking on the "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "MyToken" contract from the dropdown menu, and then click on the "Deploy" button.
 
-@@ -63,11 +65,11 @@ function burn(address _address, uint _value) public
-_address: The address from which the tokens will be burned.
-_value: The number of tokens to burn.
-
-Usage:
-USAGE:
-Deploy the MyToken contract to the Ethereum blockchain using your preferred method Remix.
-
-After deployment, you can interact with the contract to mint and burn tokens, as well as check the balances and total supply.
+Once the contract is deployed, you can interact with it by calling the mint function and burn function. 
 
 
-License
-LICENSE:
-This contract is licensed under the Metacrafters License.
+# Features
+
+- **Token Name:** 2KEN
+- **Token Abbreviation:** 2KN
+- **Total Supply:** Dynamic, initially set to 0
+- **Minting:** Increase the total supply by creating new tokens and assigning them to an address
+- **Burning:** Decrease the total supply by destroying tokens from an address balance
+
+# Public Variables
+
+- **`tokenName`** (`string`): The name of the token (2KEN).
+- **`tokenAbbrv`** (`string`): The abbreviation or symbol of the token (2KN).
+- **`totalSupply`** (`uint`): The total number of tokens in circulation, initialized to 0.
+
+# Mappings
+
+- **`balances`** (`mapping(address => uint)`): Keeps track of the number of tokens each address holds.
+
+# Functions
+
+### mint
+
+```solidity
+function mint (address _address, uint _value) public
+```
+
+The `mint` function allows new tokens to be created and assigned to a specific address. This increases both the `totalSupply` and the balance of the specified address.
+
+- **Parameters:**
+  - `_address` (`address`): The address to which the new tokens will be assigned.
+  - `_value` (`uint`): The number of tokens to be created.
+
+- **Behavior:**
+  - Increases `totalSupply` by `_value`.
+  - Increases the balance of `_address` by `_value`.
+
+### burn
+
+```solidity
+function burn (address _address, uint _value) public
+```
+
+The `burn` function allows tokens to be destroyed, effectively reducing the total supply and the balance of a specified address. This function can only be executed if the address has enough tokens to burn.
+
+- **Parameters:**
+  - `_address` (`address`): The address from which the tokens will be burned.
+  - `_value` (`uint`): The number of tokens to be burned.
+
+- **Behavior:**
+  - Decreases `totalSupply` by `_value`.
+  - Decreases the balance of `_address` by `_value`, but only if `_address` has at least `_value` tokens.
+
+# License
+
+This project is licensed under the MIT License. 
+
+Author
+- Adrian B. Madera
